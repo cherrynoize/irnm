@@ -1,4 +1,4 @@
-@import "config.rasi"
+@import "~/.config/rofi/config.rasi"
 
 configuration {
     show-icons: false;
