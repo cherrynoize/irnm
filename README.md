@@ -42,3 +42,8 @@ for that.
 ![screenshot](screenshots/1.png "wpgtk theme")
 ![screenshot](screenshots/2.png "nord theme")
 ![screenshot](screenshots/3.png "wpgtk theme")
+
+### TODO
+
+Make a better install script so that it also installs config files
+some other place. (Always be careful not to override stuff!)
