@@ -54,15 +54,16 @@ for that.
 ![screenshot](screenshots/5.png "wpgtk theme")
 </details>
 
-<details>
-# <summary>[Nord](https://github.com/Murzchnvok/rofi-collection)</summary>
 # [Nord](https://github.com/Murzchnvok/rofi-collection)
+<details>
+<summary></summary>
 
 ![screenshot](screenshots/2.png "nord theme")
 </details>
 
+# Saturn
 <details>
-# <summary>Saturn</summary>
+<summary></summary>
 
 ![screenshot](screenshots/4.png "saturn theme")
 </details>
