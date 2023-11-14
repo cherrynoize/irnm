@@ -44,9 +44,9 @@ for that.
 
 ### Screenshots
 
-<details>
-# <summary>wpgtk</summary>
 # [wpgtk](wpgtk.rasi)
+<details>
+<summary></summary>
 
 ![screenshot](screenshots/0.png "wpgtk theme")
 ![screenshot](screenshots/1.png "wpgtk theme")
@@ -56,6 +56,7 @@ for that.
 
 <details>
 # <summary>[Nord](https://github.com/Murzchnvok/rofi-collection)</summary>
+# [Nord](https://github.com/Murzchnvok/rofi-collection)</summary>
 
 ![screenshot](screenshots/2.png "nord theme")
 </details>
