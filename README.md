@@ -56,7 +56,7 @@ for that.
 
 <details>
 # <summary>[Nord](https://github.com/Murzchnvok/rofi-collection)</summary>
-# [Nord](https://github.com/Murzchnvok/rofi-collection)</summary>
+# [Nord](https://github.com/Murzchnvok/rofi-collection)
 
 ![screenshot](screenshots/2.png "nord theme")
 </details>
