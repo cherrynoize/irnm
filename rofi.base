@@ -1,0 +1,130 @@
+/*
+ * ROFI color theme
+ *
+ * Based on Something Found in the Internet
+ *
+ * User: cherrynoize
+ * Copyright: *!
+ */
+
+/*****----- Global Properties -----*****/
+* {{
+  /******------ appearance ------******/
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+
+  /********------- font -------********/
+  font:           "{font0} 10";
+
+  /********------ colors ------********/
+/*primary:        {color8};*/
+  primary:        #1f1d2f;
+  blue:           #6272a4;
+  purple:         #bd93f9;
+  bg:             {color0};
+  bg-alt:         {color11};
+  fg:             {color15};
+  selected:       #bbc5d7;
+  accent:         {color10};
+  active:         @selected;
+  urgent:         @accent;
+
+  /********------ images ------********/
+  img-width:      url("{wp}", width);
+  img-height:     url("{wp}", height);
+
+  /******------ properties ------******/
+  background-color: @bg;
+  text-color: @fg;
+}}
+
+configuration {{
+  font: "{{font0}} 10";
+
+  run {{
+    display-name: "";
+  }}
+
+  drun {{
+    display-name: "󰲋";
+  }}
+
+  window {{
+    display-name: "";
+  }}
+
+  windowcd {{
+    display-name: "";
+  }}
+
+  filebrowser {{
+    display-name: "";
+  }}
+
+  keys {{
+    display-name: "";
+  }}
+
+  ssh {{
+    display-name: "󰢩";
+  }}
+
+  combi {{
+    display-name: "󰘗";
+  }}
+
+  /*
+  dmenu {{
+    display-name: "󰮫";
+  }}
+  */
+}}
+
+window {{
+  transparency: "real";
+}}
+
+mainbox {{
+  children: [inputbar, listview];
+}}
+
+inputbar {{
+  children: [prompt, entry];
+  background-color: @bg-alt;
+}}
+
+entry {{
+  background-color: inherit;
+  padding: 12px 3px;
+  text-color: @accent;
+}}
+
+prompt, textbox-prompt-colon {{
+  background-color: inherit;
+  padding: 12px;
+  text-color: @accent;
+}}
+
+listview {{
+  lines: 8;
+}}
+
+element {{
+  children: [element-icon, element-text];
+  text-color: @bg-alt;
+}}
+
+element-icon {{
+  padding: 10px 10px;
+}}
+
+element-text {{
+  padding: 10px 0;
+  text-color: inherit;
+}}
+
+element-text selected {{
+  text-color: @accent;
+}}
