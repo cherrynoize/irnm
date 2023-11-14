@@ -45,7 +45,8 @@ for that.
 ### Screenshots
 
 <details>
-# <summary>[wpgtk](wpgtk.rasi)</summary>
+# <summary>wpgtk</summary>
+# [wpgtk](wpgtk.rasi)
 
 ![screenshot](screenshots/0.png "wpgtk theme")
 ![screenshot](screenshots/1.png "wpgtk theme")
