@@ -44,7 +44,7 @@ for that.
 
 ### Screenshots
 
-# [wpgtk](wpgtk.rasi)
+## [wpgtk](wpgtk.rasi)
 <details>
 <summary></summary>
 
@@ -54,14 +54,14 @@ for that.
 ![screenshot](screenshots/5.png "wpgtk theme")
 </details>
 
-# [Nord](https://github.com/Murzchnvok/rofi-collection)
+## [Nord](https://github.com/Murzchnvok/rofi-collection)
 <details>
 <summary></summary>
 
 ![screenshot](screenshots/2.png "nord theme")
 </details>
 
-# Saturn
+## Saturn
 <details>
 <summary></summary>
 
