@@ -37,12 +37,8 @@ default (you may want to edit that out if that's not what you
 want or if your config sits in another path). Or you can add a
 theme directive right in there to be used with `irnm` only.
 
-```
-rofi
-```
-
-If you want full `wpgtk` integration though, you're going to need
-to set up a [template](rofi.base). Refer to
+If you want to integrate a `wpgtk` theme such as the one provided,
+you're going to need to set up a [template](rofi.base). Refer to
 [Deviantfero's documentation](https://github.com/deviantfero/wpgtk/wiki/Templates)
 for that.
 
