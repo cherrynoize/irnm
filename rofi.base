@@ -32,6 +32,7 @@
   urgent:         @accent;
 
   /********------ images ------********/
+  img:            url("{wp}", both);
   img-width:      url("{wp}", width);
   img-height:     url("{wp}", height);
 
@@ -88,11 +89,14 @@ window {{
 
 mainbox {{
   children: [inputbar, listview];
+  background-color: @bg-alt;
 }}
 
 inputbar {{
   children: [prompt, entry];
-  background-color: @bg-alt;
+  background-color: @primary;
+  margin: 2px 5px;
+  border-radius: 12px;
 }}
 
 entry {{
@@ -125,6 +129,8 @@ element-text {{
   text-color: inherit;
 }}
 
+element-icon selected,
 element-text selected {{
   text-color: @accent;
+  background-color: @primary;
 }}

@@ -18,7 +18,10 @@ while [ -e "$BAK_FILE" ]; do
 done
 
 # make backup if dest file exists and is not the same file
-if [ -e "$DEST_FILE" ] && ! diff "$PROGRAM_NAME" "$BAK_FILE"; then
+if [ -e "$DEST_FILE" ] &&
+  ! diff "$PROGRAM_NAME" "$DEST_FILE" > /dev/null &&
+  [ ! "$1" = "-n" ] &&
+  [ ! "$1" = "--nobak" ]; then
   echo "[*] Creating backup copy..."
   sudo mv "$DEST_FILE" "$BAK_FILE" || exit 1
   echo "Backup copy created: $BAK_FILE"

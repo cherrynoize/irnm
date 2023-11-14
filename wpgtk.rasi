@@ -19,19 +19,20 @@
   font:           "JetBrains Mono Nerd Font 10";
 
   /********------ colors ------********/
-/*primary:        #372126;*/
+/*primary:        #261f29;*/
   primary:        #1f1d2f;
   blue:           #6272a4;
   purple:         #bd93f9;
-  bg:             #180f11;
-  bg-alt:         #ffab85;
-  fg:             #ffffe9;
+  bg:             #0c0a0d;
+  bg-alt:         #ffcd77;
+  fg:             #ffffe4;
   selected:       #bbc5d7;
-  accent:         #ef6c73;
+  accent:         #d6845c;
   active:         @selected;
   urgent:         @accent;
 
   /********------ images ------********/
+  img:            url("~/.current-wallpaper", both);
   img-width:      url("~/.current-wallpaper", width);
   img-height:     url("~/.current-wallpaper", height);
 
@@ -88,11 +89,14 @@ window {
 
 mainbox {
   children: [inputbar, listview];
+  background-color: @bg-alt;
 }
 
 inputbar {
   children: [prompt, entry];
-  background-color: @bg-alt;
+  background-color: @primary;
+  margin: 2px 5px;
+  border-radius: 12px;
 }
 
 entry {
@@ -125,6 +129,8 @@ element-text {
   text-color: inherit;
 }
 
+element-icon selected,
 element-text selected {
   text-color: @accent;
+  background-color: @primary;
 }

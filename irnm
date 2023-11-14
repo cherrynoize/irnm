@@ -15,8 +15,6 @@
 # Default values
 # (You should override default values in the .conf file, rather
 # than manually editing this file)
-LOCATION=0
-QRCODE_LOCATION=$LOCATION
 Y_AXIS=0
 X_AXIS=0
 QRCODE_DIR="/tmp/"
@@ -46,24 +44,24 @@ nid="7777"
 
 # Menu options
 opt_disc="Disconnect"
-opt_scan="Scan"
-opt_status="Status"
-opt_pwd="Show Wifi Password"
-opt_add="Add network (manual/hidden)"
-opt_manual="Manual"
-opt_hidden="Hidden"
-opt_wifi_on="Wi-Fi On"
-opt_wifi_off="Wi-Fi Off"
-opt_eth_on="Eth On"
-opt_eth_off="Eth Off"
-opt_eth_conn="Eth Connecting"
-opt_eth_na="Eth Unavailable"
-opt_wifi_ix="Change Wifi Interface"
-opt_restart="Restart Network"
-opt_qr="QrCode"
-opt_more="More Options"
-opt_editor="Open Connection Editor"
-opt_vpn="VPN"
+opt_scan="Rescan"
+opt_status="Connection status"
+opt_wifi_pwd="View connection details"
+opt_add_network="Add a new network"
+opt_add_network_manual="Manual"
+opt_add_network_hidden="Hidden"
+opt_wifi_on="Wi-Fi on"
+opt_wifi_off="Wi-Fi off"
+opt_eth_on="Ethernet on"
+opt_eth_off="Ethernet off"
+opt_eth_conn="Ethernet connecting..."
+opt_eth_na="Ethernet unavailable"
+opt_wifi_ix="Wi-Fi interface"
+opt_restart="Restart network"
+opt_qr_code="View connection QR code"
+opt_advanced_options="Advanced options"
+opt_editor="Open connection editor"
+opt_vpn="VPN settings"
 
 option_prefix=" "
 option_suffix=""
@@ -84,7 +82,7 @@ conf_file="$program_name.conf"
 rasi_file="$program_name.rasi"
 
 # Title for notifications
-title="$program_name"
+notif_title="$program_name"
 
 function add_option () {
   while [ -n "$1" ]; do
@@ -114,6 +112,9 @@ function config () {
     echo "error: file $rasi_file not found"
     exit 1
   fi
+
+  [ -n "$rofi_theme" ] &&
+    rofi_theme_cli_param="-theme"
 }
 
 function initialize () {
@@ -150,9 +151,9 @@ function wireless_interface_state () {
       OPTIONS="$WIFI_LIST\n"
 
       if [ "$ACTIVE_SSID" = "--" ]; then
-        add_option "$opt_scan" "$opt_add" "$opt_wifi_off"
+        add_option "$opt_scan" "$opt_add_network" "$opt_wifi_off"
       else
-        add_option "$opt_scan" "$opt_disc" "$opt_add" "$opt_wifi_off"
+        add_option "$opt_scan" "$opt_disc" "$opt_add_network" "$opt_wifi_off"
       fi
     fi
   fi
@@ -181,7 +182,7 @@ function rofi_menu () {
   if [ "${#wifi_nics[@]}" -gt "1" ]; then
     add_option "$opt_wifi_ix"
   fi
-  add_option "$opt_more"
+  add_option "$opt_advanced_options"
 
   if [ "$WIRED_CON_STATE" = "connected" ]; then
     PROMPT="${wifi_nics_vector}[$eth_nics]"
@@ -189,7 +190,7 @@ function rofi_menu () {
     PROMPT="${wifi_nics_vector[WLAN_INT]}[${wifi_nics[WLAN_INT]}]"
   fi
 
-  choice="$(echo -e "$OPTIONS" | rofi_cmd "$OPTIONS" $WIDTH_FIX_MAIN "-a 0")"
+  choice="$(echo -ne "$OPTIONS" | rofi_cmd "$OPTIONS" $WIDTH_FIX_MAIN "-a 0")"
   SSID="$(echo "$choice" | sed "s/\s\{2,\}/\|/g" | awk -F "|" '{ print $1; }')"
   menu
 }
@@ -205,7 +206,8 @@ function rofi_cmd () {
   fi
 
   rofi -config "$rasi_dir/$rasi_file"\
-       -dmenu -i -location "$LOCATION" -yoffset "$Y_AXIS" -xoffset "$X_AXIS" "$3"\
+       -dmenu -i -location "$window_position" -yoffset "$Y_AXIS" -xoffset "$X_AXIS" "$3"\
+       $rofi_theme_cli_param "$rofi_theme"\
        -theme-str 'window{width: '"$WIDTH"';}textbox-prompt-colon{str:"'"$PROMPT"':";}'"$4"''
 }
 
@@ -357,30 +359,46 @@ function status () {
     add_option "${ACTIVE_VPN}[VPN]: $(nmcli -g ip4.address con show "$ACTIVE_VPN" | awk -F '[:/]' '{ print $1; }')"
   fi
 
-  echo -e "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox{children:[listview];}"
+  echo -ne "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox{children:[listview];}"
 }
 
-function show_pass () {
-  SSID="$(nmcli dev wifi show-password | grep -oP '(?<=SSID: ).*' | head -1)"
-  PASSWORD="$(nmcli dev wifi show-password | grep -oP '(?<=Password: ).*' | head -1)"
-  OPTIONS="SSID: ${SSID}\nPassword: ${PASSWORD}"
-  [ -x "$(command -v qrencode)" ] && add_option "$opt_qr"
-  choice="$(echo -e "$OPTIONS" | rofi_cmd "$OPTIONS" $WIDTH_FIX_STATUS "-a -1" "mainbox{children:[listview];}")"
+# fetches, stores and returns requested wifi info
+function get_wifi_info () {
+  nmcli dev wifi show-password | grep -oP '(?<='"$1"': ).*' | head -1
+}
+
+# show wifi password and ssid
+function show_wifi_pwd () {
+  OPTIONS="SSID: $(get_wifi_info SSID)\nPassword: $(get_wifi_info Password)\n"
+  [ -x "$(command -v qrencode)" ] && add_option "$opt_qr_code"
+  choice="$(echo -ne "$OPTIONS" | rofi_cmd "$OPTIONS" $WIDTH_FIX_STATUS "-a -1" "mainbox{children:[listview];}")"
   menu
+}
+
+# copy text to clipboard and send notification
+function copy_to_clipboard () {
+  xclip -selection clipboard <<< "$1"
+  notification "$notif_title" "Copied to clipboard"
 }
 
 function gen_qrcode () {
   DIRECTIONS=("Center" "Northwest" "North" "Northeast" "East" "Southeast" "South" "Southwest" "West")
   TMP_SSID="${SSID// /_}"
-  [ -e "$QRCODE_DIR$TMP_SSID.png" ] || qrencode -t png -o "$QRCODE_DIR$TMP_SSID".png -l H -s 25 -m 2 --dpi=192 "WIFI:S:""$SSID"";T:""$(nmcli dev wifi show-password | grep -oP '(?<=Security: ).*' | head -1)"";P:""$PASSWORD"";;"
-  rofi_cmd "" "0" "" "entry{enabled:false;}window{location:""${DIRECTIONS[QRCODE_LOCATION]}"";border-radius:6mm;padding:1mm;width:100mm;height:100mm;
-  background-image:url(\"$QRCODE_DIR$TMP_SSID.png\",both);}"
+  qr_code_filename="$QRCODE_DIR$TMP_SSID.png"
+  [ -e "$qr_code_filename" ] || qrencode -t png -o "$qr_code_filename" -l H -s 25 -m 2 --dpi=192 "WIFI:S:""$SSID"";T:""$(get_wifi_info Security)"";P:""$(get_wifi_info Password)"";;"
+  rofi_cmd "" "0" ""\
+    "entry { enabled: false; }\
+     window {\
+       location:${DIRECTIONS[${qrcode_position:-"$window_position"}]};\
+       border-radius:6mm;padding:1mm;width:100mm;height:100mm;\
+       background-image: url(\"$qr_code_filename\", both);\
+   }"
 }
 
 function add_network () {
   OPTIONS=""
-  add_option "Add network" "$opt_manual" "$opt_hidden"
-  choice="$(echo -e "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox{children:[listview];}")"
+  add_option "Add network" "$opt_add_network_manual" "$opt_add_network_hidden"
+  choice="$(echo -ne "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox{children:[listview];}")"
   menu
 }
 
@@ -392,7 +410,7 @@ function vpn () {
   else
     OPTIONS="$(nmcli -g NAME,TYPE connection | awk '/:vpn/' | sed 's/:vpn.*//g')"
   fi
-  VPN_ACTION=$(echo -e "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox {children:[listview];}")
+  VPN_ACTION=$(echo -ne "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox {children:[listview];}")
   if [ -n "$VPN_ACTION" ]; then
     if [ "$VPN_ACTION" = "$opt_disable_vpn" ]; then
       nmcli connection down "$ACTIVE_VPN" && notification "VPN_Deactivated" "$ACTIVE_VPN"
@@ -408,13 +426,13 @@ function vpn () {
   fi
 }
 
-function more_options () {
+function advanced_options () {
   OPTIONS=""
-  [ "$WIFI_CON_STATE" = "connected" ] && add_option "$opt_pwd"
+  [ "$WIFI_CON_STATE" = "connected" ] && add_option "$opt_wifi_pwd"
   add_option "$opt_status" "$opt_restart"
   [ -n "$(nmcli -g NAME,TYPE connection | awk '/:vpn/' | sed 's/:vpn.*//g')" ] && add_option "$opt_vpn"
   [ -x "$(command -v nm-connection-editor)" ] && add_option "$opt_editor"
-  choice="$(echo -e "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox {children:[listview];}")"
+  choice="$(echo -ne "$OPTIONS" | rofi_cmd "$OPTIONS" "$WIDTH_FIX_STATUS" "" "mainbox {children:[listview];}")"
   menu
 }
 
@@ -423,20 +441,22 @@ function menu () {
     "$opt_disc") disconnect "Connection_Terminated" ;;
     "$opt_scan") scan ;;
     "$opt_status") status ;;
-    "$opt_pwd") show_pass ;;
-    "$opt_add") add_network ;;
-    "$opt_manual") ssid manual ;;
-    "$opt_hidden") ssid hidden ;;
+    "$opt_wifi_pwd") show_wifi_pwd ;;
+    "$opt_add_network") add_network ;;
+    "$opt_add_network_manual") ssid manual ;;
+    "$opt_add_network_hidden") ssid hidden ;;
     "$opt_wifi_on") change_wifi_state "Wi-Fi" "Enabling Wi-Fi connection" "on" ;;
     "$opt_wifi_off") change_wifi_state "Wi-Fi" "Disabling Wi-Fi connection" "off" ;;
     "$opt_eth_off") change_wired_state "Ethernet" "Disabling Wired connection" "disconnect" "$eth_nics" ;;
     "$opt_eth_on") change_wired_state "Ethernet" "Enabling Wired connection" "connect" "$eth_nics" ;;
     "$opt_wifi_ix") change_wireless_interface ;;
     "$opt_restart") net_restart "Network" "Restarting Network" ;;
-    "$opt_qr") gen_qrcode ;;
-    "$opt_more") more_options ;;
+    "$opt_qr_code") gen_qrcode ;;
+    "$opt_advanced_options") advanced_options ;;
     "$opt_editor") nm-connection-editor ;;
     "$opt_vpn") vpn ;;
+    SSID:*) copy_to_clipboard "$(get_wifi_info SSID)" ;;
+    Password:*) copy_to_clipboard "$(get_wifi_info Password)" ;;
     *)
       [ -n "$choice" ] && [[ "$WIFI_LIST" =~ .*"$choice".* ]] && {
         [ "$SSID" = "*" ] && SSID="$(echo "$choice" | sed "s/\s\{2,\}/\|/g " | awk -F "|" '{print $3}')"
@@ -450,6 +470,6 @@ function menu () {
 }
 
 config
-notification "$title" "Please, wait..."
+notification "$notif_title" "Please, wait..."
 initialize && dunstify -C "$nid"
 rofi_menu

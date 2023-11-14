@@ -26,10 +26,20 @@ irnm
 
 ### Theming
 
-You can find the `nord` theme shown in the third screenshot
-[here](https://github.com/Murzchnvok/rofi-collection). In all
-other screenshots I'm using [this](wpgtk.rasi) `wpgtk` theme made
-by me.
+You can set up your `rofi` theme in `config.rasi` like this:
+
+```
+@theme /path/to/theme.rasi
+```
+
+since `irnm.rasi` imports `~/.config/rofi/config.rasi` by
+default (you may want to edit that out if that's not what you
+want or if your config sits in another path). Or you can add a
+theme directive right in there to be used with `irnm` only.
+
+```
+rofi
+```
 
 If you want full `wpgtk` integration though, you're going to need
 to set up a [template](rofi.base). Refer to
@@ -38,13 +48,27 @@ for that.
 
 ### Screenshots
 
+# [wpgtk](wpgtk.rasi)
+
 ![screenshot](screenshots/0.png "wpgtk theme")
 ![screenshot](screenshots/1.png "wpgtk theme")
-![screenshot](screenshots/2.png "nord theme")
 ![screenshot](screenshots/3.png "wpgtk theme")
+![screenshot](screenshots/5.png "wpgtk theme")
+
+#### [Nord](https://github.com/Murzchnvok/rofi-collection)
+
+![screenshot](screenshots/2.png "nord theme")
+
+#### Saturn
+
+![screenshot](screenshots/4.png "saturn theme")
 
 ### TODO
 
+#### Meta
 - Make a better install script so that it also installs config
 files some other place. (Always be careful not to override stuff!)
 - Uninstall script
+
+#### Features
+- Create hotspot functionality
