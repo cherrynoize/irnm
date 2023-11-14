@@ -11,6 +11,7 @@ yay -S rofi dunstify
 ### Installation
 
 ```
+cd ~/.config/rofi
 git clone https://github.com/cherrynoize/irnm irnm
 cd irnm
 chmod +x install.sh
@@ -32,8 +33,8 @@ by me.
 
 If you want full `wpgtk` integration though, you're going to need
 to set up a [template](rofi.base). Refer to
-[Deviantfero](https://github.com/deviantfero/wpgtk/wiki/Templates)'s
-documentation for that.
+[Deviantfero's documentation](https://github.com/deviantfero/wpgtk/wiki/Templates)
+for that.
 
 ### Screenshots
 
