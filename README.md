@@ -45,5 +45,6 @@ for that.
 
 ### TODO
 
-Make a better install script so that it also installs config files
-some other place. (Always be careful not to override stuff!)
+- Make a better install script so that it also installs config
+files some other place. (Always be careful not to override stuff!)
+- Uninstall script
