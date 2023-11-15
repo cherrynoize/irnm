@@ -148,7 +148,8 @@ function wireless_interface_state () {
       WIFI_LIST=$(nmcli --fields SSID,SECURITY,BARS device wifi list ifname "${wifi_nics[WLAN_INT]}")
       wifi_list
 
-      OPTIONS="$WIFI_LIST\n"
+      OPTIONS="$(head -n 1 <<< "$WIFI_LIST")$nonselect"
+      OPTIONS+="$(tail -n +2 <<< "$WIFI_LIST")\n" # skip first line
 
       if [ "$ACTIVE_SSID" = "--" ]; then
         add_option "$opt_scan" "$opt_add_network" "$opt_wifi_off"
@@ -445,8 +446,8 @@ function menu () {
     "$opt_add_network_hidden") ssid hidden ;;
     "$opt_wifi_on") change_wifi_state "Wi-Fi" "Enabling Wi-Fi connection" "on" ;;
     "$opt_wifi_off") change_wifi_state "Wi-Fi" "Disabling Wi-Fi connection" "off" ;;
-    "$opt_eth_off") change_wired_state "Ethernet" "Disabling Wired connection" "disconnect" "$eth_nics" ;;
-    "$opt_eth_on") change_wired_state "Ethernet" "Enabling Wired connection" "connect" "$eth_nics" ;;
+    "$opt_eth_off") change_wired_state "Ethernet" "Disabling Wired connection" "disconnect" "${eth_nics[0]}" ;;
+    "$opt_eth_on") change_wired_state "Ethernet" "Enabling Wired connection" "connect" "${eth_nics[0]}" ;;
     "$opt_wifi_ix") change_wireless_interface; rofi_menu ;;
     "$opt_restart") net_restart "Network" "Restarting Network" ;;
     "$opt_qr_code") gen_qrcode ;;
@@ -456,10 +457,11 @@ function menu () {
     SSID:*) copy_to_clipboard "$(get_wifi_info SSID)" ;;
     Password:*) copy_to_clipboard "$(get_wifi_info Password)" ;;
     *)
-      [ -n "$choice" ] && [[ "$WIFI_LIST" =~ .*"$choice".* ]] && {
+      [ -n "$choice" ] && [[ "$WIFI_LIST" =~ .*"$choice".* ]] && { # if choice is in wifi list
         [ "$SSID" = "*" ] && SSID="$(echo "$choice" | sed "s/\s\{2,\}/\|/g " | awk -F "|" '{print $3}')"
         { [ "$ACTIVE_SSID" = "$SSID" ] && nmcli con up "$SSID" ifname "${wifi_nics[WLAN_INT]}"; } || {
-          [ "$choice" = "WPA2" ] || [ "$choice" = "WEP" ] && password_prompt
+          security="$(awk '{print $2;}' <<< "$choice")"
+          [[ "$security" =~ "WPA".* ]] || [ "$security" = "WEP" ] && password_prompt
           { [ -n "$PASS" ] && [ ! "$PASS" = "$PASSWORD_ENTER" ] && connect "$SSID" "$PASS"; } || stored_connection "$SSID"
         }
       }
