@@ -231,19 +231,17 @@ function change_wireless_interface () {
   fi
 
   wireless_interface_state && ethernet_interface_state
-  rofi_menu
 }
 
 function scan () {
   if [ "$WIFI_CON_STATE" = "unavailable" ]; then
     change_wifi_state "Wi-Fi" "Enabling Wi-Fi connection" "on"
   fi
-  notification "Wifi" "Please, Wait... Scanning"
+  notification "Wifi" "Please, wait... Scanning"
   WIFI_LIST="$(nmcli --fields SSID,SECURITY,BARS device wifi list ifname "${wifi_nics[WLAN_INT]}" --rescan yes)"
   wifi_list
   wireless_interface_state && ethernet_interface_state
   dunstify -C "$nid"
-  rofi_menu
 }
 
 function wifi_list(){
@@ -439,7 +437,7 @@ function advanced_options () {
 function menu () {
   case "$(strip_option "$choice")" in
     "$opt_disc") disconnect "Connection_Terminated" ;;
-    "$opt_scan") scan ;;
+    "$opt_scan") scan; rofi_menu ;;
     "$opt_status") status ;;
     "$opt_wifi_pwd") show_wifi_pwd ;;
     "$opt_add_network") add_network ;;
@@ -449,10 +447,10 @@ function menu () {
     "$opt_wifi_off") change_wifi_state "Wi-Fi" "Disabling Wi-Fi connection" "off" ;;
     "$opt_eth_off") change_wired_state "Ethernet" "Disabling Wired connection" "disconnect" "$eth_nics" ;;
     "$opt_eth_on") change_wired_state "Ethernet" "Enabling Wired connection" "connect" "$eth_nics" ;;
-    "$opt_wifi_ix") change_wireless_interface ;;
+    "$opt_wifi_ix") change_wireless_interface; rofi_menu ;;
     "$opt_restart") net_restart "Network" "Restarting Network" ;;
     "$opt_qr_code") gen_qrcode ;;
-    "$opt_advanced_options") advanced_options ;;
+    "$opt_advanced_options") advanced_options; rofi_menu ;;
     "$opt_editor") nm-connection-editor ;;
     "$opt_vpn") vpn ;;
     SSID:*) copy_to_clipboard "$(get_wifi_info SSID)" ;;
@@ -467,6 +465,7 @@ function menu () {
       }
       ;;
   esac
+  exit
 }
 
 config
