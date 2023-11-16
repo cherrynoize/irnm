@@ -94,7 +94,7 @@ mainbox {
 
 inputbar {
   children: [prompt, entry];
-  background-color: @primary;
+  background-color: inherit;
   margin: 2px 5px;
   border-radius: 12px;
 }

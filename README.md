@@ -45,6 +45,7 @@ for that.
 ### Screenshots
 
 ## [wpgtk](wpgtk.rasi)
+
 <details>
 <summary></summary>
 
@@ -52,19 +53,25 @@ for that.
 ![screenshot](screenshots/1.png "wpgtk theme")
 ![screenshot](screenshots/3.png "wpgtk theme")
 ![screenshot](screenshots/5.png "wpgtk theme")
+
 </details>
+
 ## [Nord](https://github.com/Murzchnvok/rofi-collection)
+
 <details>
 <summary></summary>
 
 ![screenshot](screenshots/2.png "nord theme")
+
 </details>
 
 ## Saturn
+
 <details>
 <summary></summary>
 
 ![screenshot](screenshots/4.png "saturn theme")
+
 </details>
 
 ### TODO
