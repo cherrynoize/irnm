@@ -19,15 +19,15 @@
   font:           "JetBrains Mono Nerd Font 10";
 
   /********------ colors ------********/
-/*primary:        #261f29;*/
+/*primary:        #2f3142;*/
   primary:        #1f1d2f;
   blue:           #6272a4;
   purple:         #bd93f9;
-  bg:             #0c0a0d;
-  bg-alt:         #ffcd77;
-  fg:             #ffffe4;
+  bg:             #1b1c25;
+  bg-alt:         #d9a7eb;
+  fg:             #fff8ff;
   selected:       #bbc5d7;
-  accent:         #d6845c;
+  accent:         #8189c2;
   active:         @selected;
   urgent:         @accent;
 
