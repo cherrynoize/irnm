@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # irnm - install script
 #############################
 # install config
