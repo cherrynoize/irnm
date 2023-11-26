@@ -3,8 +3,7 @@
 #############################
 # install config
 PROGRAM_NAME="irnm"
-INSTALL_DIR="/usr/local/bin"
-DEST_FILE="$INSTALL_DIR/$PROGRAM_NAME"
+DEST_FILE="${INSTALL_DIR:-"/usr/local/bin"}/$PROGRAM_NAME"
 #############################
 # do not edit below this line
 #############################

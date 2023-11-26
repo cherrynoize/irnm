@@ -16,18 +16,19 @@
   spacing: 0;
 
   /********------- font -------********/
-  font:           "JetBrains Mono Nerd Font 10";
+  font:           "JetBrainsMono NF Bold 10";
 
   /********------ colors ------********/
-/*primary:        #2f3142;*/
-  primary:        #1f1d2f;
+//primary:        #1f1d2f;
+  primary:        #955C43;
+  secondary:      #261f29;
   blue:           #6272a4;
   purple:         #bd93f9;
-  bg:             #1b1c25;
-  bg-alt:         #d9a7eb;
-  fg:             #fff8ff;
+  bg:             #0c0a0d;
+  bg-alt:         #ffcd77;
+  fg:             #ffffe4;
   selected:       #bbc5d7;
-  accent:         #8189c2;
+  accent:         #d6845c;
   active:         @selected;
   urgent:         @accent;
 
@@ -42,8 +43,6 @@
 }
 
 configuration {
-  font: "{font0} 10";
-
   run {
     display-name: "";
   }
@@ -102,7 +101,7 @@ inputbar {
 entry {
   background-color: inherit;
   padding: 12px 3px;
-  text-color: @accent;
+  text-color: @primary;
 }
 
 prompt, textbox-prompt-colon {
@@ -131,6 +130,6 @@ element-text {
 
 element-icon selected,
 element-text selected {
-  text-color: @accent;
+  text-color: @selected;
   background-color: @primary;
 }

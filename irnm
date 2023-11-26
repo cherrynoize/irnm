@@ -119,11 +119,11 @@ function config () {
 
 function initialize () {
   for i in "${wifi_nics[@]}"; do
-    wifi_nics_vector+=("$(nmcli -f general.product device show "$i" | awk '{print $2}')")
+    wifi_nics_vector+=("$(nmcli -f general.product device show "$i" 2>/dev/null | awk '{print $2}')")
   done
   
   for i in "${eth_nics[@]}"; do
-    eth_nics_vector+=("$(nmcli -f general.product device show "$i" | awk '{print $2}')")
+    eth_nics_vector+=("$(nmcli -f general.product device show "$i" 2>/dev/null | awk '{print $2}')")
   done
 
   wireless_interface_state
@@ -238,7 +238,7 @@ function scan () {
   if [ "$WIFI_CON_STATE" = "unavailable" ]; then
     change_wifi_state "Wi-Fi" "Enabling Wi-Fi connection" "on"
   fi
-  notification "Wifi" "Please, wait... Scanning"
+  notification "Wifi" "* Please, wait... Scanning"
   WIFI_LIST="$(nmcli --fields SSID,SECURITY,BARS device wifi list ifname "${wifi_nics[$WLAN_INT]}" --rescan yes)"
   wifi_list
   wireless_interface_state && ethernet_interface_state
@@ -471,6 +471,6 @@ function menu () {
 }
 
 config
-notification "$notif_title" "Please, wait..."
+notification "$notif_title" "* Please, wait..."
 initialize && dunstify -C "$nid"
 rofi_menu

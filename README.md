@@ -11,11 +11,16 @@ yay -S rofi dunstify
 ### Installation
 
 ```
-cd ~/.config/rofi
-git clone https://github.com/cherrynoize/irnm irnm
+git clone https://github.com/cherrynoize/irnm
 cd irnm
-chmod +x install.sh
 ./install.sh
+```
+
+This will install to the default install dir. You can override
+this behaviour with:
+
+```
+INSTALL_DIR=/path/to/dest ./install.sh
 ```
 
 ### Usage

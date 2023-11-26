@@ -16,11 +16,12 @@
   spacing: 0;
 
   /********------- font -------********/
-  font:           "{font0} 10";
+  font:           "{font0} Bold 10";
 
   /********------ colors ------********/
-/*primary:        {color8};*/
-  primary:        #1f1d2f;
+//primary:        #1f1d2f;
+  primary:        {color1};
+  secondary:      {color8};
   blue:           #6272a4;
   purple:         #bd93f9;
   bg:             {color0};
@@ -42,8 +43,6 @@
 }}
 
 configuration {{
-  font: "{{font0}} 10";
-
   run {{
     display-name: "";
   }}
@@ -102,7 +101,7 @@ inputbar {{
 entry {{
   background-color: inherit;
   padding: 12px 3px;
-  text-color: @accent;
+  text-color: @primary;
 }}
 
 prompt, textbox-prompt-colon {{
@@ -131,6 +130,6 @@ element-text {{
 
 element-icon selected,
 element-text selected {{
-  text-color: @accent;
+  text-color: @selected;
   background-color: @primary;
 }}
