@@ -1,46 +1,13 @@
 /*
- * ROFI color theme
+ * ROFI theme
  *
- * Based on Something Found in the Internet
+ * Based on Something Found on the Internet
  *
  * User: cherrynoize
- * Copyright: *!
+ * https://github.com/cherrynoize/dotfiles
  */
 
-/*****----- Global Properties -----*****/
-* {
-  /******------ appearance ------******/
-  border: 0;
-  margin: 0;
-  padding: 0;
-  spacing: 0;
-
-  /********------- font -------********/
-  font:           "JetBrainsMono NF Bold 10";
-
-  /********------ colors ------********/
-//primary:        #1f1d2f;
-  primary:        #955C43;
-  secondary:      #261f29;
-  blue:           #6272a4;
-  purple:         #bd93f9;
-  bg:             #0c0a0d;
-  bg-alt:         #ffcd77;
-  fg:             #ffffe4;
-  selected:       #bbc5d7;
-  accent:         #d6845c;
-  active:         @selected;
-  urgent:         @accent;
-
-  /********------ images ------********/
-  img:            url("~/.current-wallpaper", both);
-  img-width:      url("~/.current-wallpaper", width);
-  img-height:     url("~/.current-wallpaper", height);
-
-  /******------ properties ------******/
-  background-color: @bg;
-  text-color: @fg;
-}
+@import "~/.config/rofi/templates/current.rasi"
 
 configuration {
   run {
@@ -82,32 +49,41 @@ configuration {
   */
 }
 
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+
 window {
   transparency: "real";
+  border-radius: @radius;
 }
 
 mainbox {
   children: [inputbar, listview];
-  background-color: @bg-alt;
+//background-color: @bg-alt;
 }
 
 inputbar {
   children: [prompt, entry];
   background-color: inherit;
-  margin: 2px 5px;
-  border-radius: 12px;
+  text-color: @accent;
+//margin: 2px 5px;
+//border-radius: @radius;
 }
 
 entry {
   background-color: inherit;
+  text-color: inherit;
   padding: 12px 3px;
-  text-color: @primary;
 }
 
 prompt, textbox-prompt-colon {
   background-color: inherit;
+  text-color: inherit;
   padding: 12px;
-  text-color: @accent;
 }
 
 listview {

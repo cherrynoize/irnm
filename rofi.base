@@ -1,19 +1,14 @@
 /*
- * ROFI color theme
- *
- * Based on Something Found in the Internet
+ * ROFI colorscheme
  *
  * User: cherrynoize
- * Copyright: *!
+ * https://github.com/cherrynoize/dotfiles
  */
 
 /*****----- Global Properties -----*****/
 * {{
-  /******------ appearance ------******/
-  border: 0;
-  margin: 0;
-  padding: 0;
-  spacing: 0;
+  /********----- apperance ----********/
+  radius:         3px;
 
   /********------- font -------********/
   font:           "{font0} Bold 10";
@@ -25,10 +20,13 @@
   blue:           #6272a4;
   purple:         #bd93f9;
   bg:             {color0};
-  bg-alt:         {color11};
+//bg-alt:         {color11};
+  bg-alt:         {color14};
   fg:             {color15};
-  selected:       #bbc5d7;
-  accent:         {color10};
+//selected:       #bbc5d7;
+  selected:       {color8};
+  accent:         {color3};
+  highlight:      {color7};
   active:         @selected;
   urgent:         @accent;
 
@@ -40,96 +38,4 @@
   /******------ properties ------******/
   background-color: @bg;
   text-color: @fg;
-}}
-
-configuration {{
-  run {{
-    display-name: "";
-  }}
-
-  drun {{
-    display-name: "󰲋";
-  }}
-
-  window {{
-    display-name: "";
-  }}
-
-  windowcd {{
-    display-name: "";
-  }}
-
-  filebrowser {{
-    display-name: "";
-  }}
-
-  keys {{
-    display-name: "";
-  }}
-
-  ssh {{
-    display-name: "󰢩";
-  }}
-
-  combi {{
-    display-name: "󰘗";
-  }}
-
-  /*
-  dmenu {{
-    display-name: "󰮫";
-  }}
-  */
-}}
-
-window {{
-  transparency: "real";
-}}
-
-mainbox {{
-  children: [inputbar, listview];
-  background-color: @bg-alt;
-}}
-
-inputbar {{
-  children: [prompt, entry];
-  background-color: inherit;
-  margin: 2px 5px;
-  border-radius: 12px;
-}}
-
-entry {{
-  background-color: inherit;
-  padding: 12px 3px;
-  text-color: @primary;
-}}
-
-prompt, textbox-prompt-colon {{
-  background-color: inherit;
-  padding: 12px;
-  text-color: @accent;
-}}
-
-listview {{
-  lines: 8;
-}}
-
-element {{
-  children: [element-icon, element-text];
-  text-color: @bg-alt;
-}}
-
-element-icon {{
-  padding: 10px 10px;
-}}
-
-element-text {{
-  padding: 10px 0;
-  text-color: inherit;
-}}
-
-element-icon selected,
-element-text selected {{
-  text-color: @selected;
-  background-color: @primary;
 }}
