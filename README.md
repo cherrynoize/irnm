@@ -79,6 +79,12 @@ for that.
 
 </details>
 
+### Known bugs
+
+- For some reason it's not showing any networks if you aren't
+already connected to one. Sounds like a silly bug I just haven't
+really looked into it yet (feel free to submit a PR if you did).
+
 ### TODO
 
 #### Install
