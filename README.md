@@ -95,3 +95,9 @@ files some other place. (Always be careful not to override stuff!)
 
 #### Features
 - Hotspot functionality
+
+### Contribute
+
+You can have a look at the [TODO](#todo) and
+[Known bugs](#known-bugs) lists or open an issue/PR if you have
+found more.
