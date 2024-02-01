@@ -101,3 +101,6 @@ files some other place. (Always be careful not to override stuff!)
 You can have a look at the [TODO](#-todo) and
 [known bugs](#-known-bugs) lists or open an issue/PR if you have
 found more.
+
+Honestly would love to hear from anyone who has actually used
+this, so if you want to [reach out](mailto:cherrynoize@duck.com).
