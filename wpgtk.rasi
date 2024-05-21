@@ -1,9 +1,9 @@
 /*
- * ROFI theme
+ * Rofi theme
  *
  * Based on Something Found on the Internet
  *
- * User: cherrynoize
+ * Author: cherrynoize
  * https://github.com/cherrynoize/dotfiles
  */
 
@@ -58,7 +58,7 @@ configuration {
 
 window {
   transparency: "real";
-  border-radius: @radius;
+  border-radius: @win-radius;
 }
 
 mainbox {
